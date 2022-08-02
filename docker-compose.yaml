@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web-server:
+    image: web-server-gin
+    build: .
+    volumes: 
+      - ./src/:/opt/myapp/
+    working_dir: /opt/myapp/
+    ports:
+      - 8080:8080
+    # command: bash
+    # tty: true
+    command: go run main.go
