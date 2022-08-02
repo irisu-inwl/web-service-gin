@@ -1,5 +1,19 @@
 version: '3'
 services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: pgweb
+    ports: 
+      - "8081:8081"
+    environment:
+      - DATABASE_URL=postgres://test:test@postgres:5432/testdb?sslmode=disable
+    depends_on:
+      - postgres
   web-server:
     image: web-server-gin
     build: .
