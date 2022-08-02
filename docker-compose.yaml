@@ -5,6 +5,8 @@ services:
     environment:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
+    volumes:
+      - ./postgresql/initdb:/docker-entrypoint-initdb.d
   pgweb:
     image: sosedoff/pgweb
     container_name: pgweb
@@ -14,6 +16,15 @@ services:
       - DATABASE_URL=postgres://test:test@postgres:5432/testdb?sslmode=disable
     depends_on:
       - postgres
+  migrate:
+    build:
+      context: ./migrate/
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./migrate/db/migrations/:/opt/migrate/db/migrations/
+    environment:
+      - POSTGRESQL_URL=postgres://test:test@postgres:5432/testdb?sslmode=disable
   web-server:
     image: web-server-gin
     build: .
