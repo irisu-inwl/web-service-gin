@@ -27,7 +27,9 @@ services:
       - POSTGRESQL_URL=postgres://test:test@postgres:5432/testdb?sslmode=disable
   web-server:
     image: web-server-gin
-    build: .
+    build: 
+      context: .
+      target: runner
     volumes: 
       - ./src/:/opt/myapp/
     working_dir: /opt/myapp/
